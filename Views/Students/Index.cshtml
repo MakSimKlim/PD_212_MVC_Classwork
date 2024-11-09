@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PD_212_MVC_Classwork.Models.Student>
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1>Students</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions">
+        <p>
+            <label>Find by name:<input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
+            <input type="submit" value="Search" class="btn btn-dark" />
+            <a asp-action="Index">Reset filter</a>
+        </p>
+    </div>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["LastNameSortParam"]">@Html.DisplayNameFor(model => model.last_name)</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParam"]">@Html.DisplayNameFor(model => model.first_name)</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["MiddleNameSortParam"]">@Html.DisplayNameFor(model => model.middle_name)</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["BirthDateSortParam"]">@Html.DisplayNameFor(model => model.birth_date)</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GroupParam"]">@Html.DisplayNameFor(model => model.group)</a></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td><a>@Html.DisplayFor(modelItem => item.last_name)</a></td>
+            <td><a> @Html.DisplayFor(modelItem => item.first_name)</a></td>
+            <td><a> @Html.DisplayFor(modelItem => item.middle_name)</a></td>
+            <td><a> @Html.DisplayFor(modelItem => item.birth_date)</a></td>
+            <td><a> @Html.DisplayFor(modelItem => item.group)</td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.stud_id">Edit</a>*@
+                <a asp-action="Details" asp-route-id="@item.stud_id">Details</a>
+                @*<a asp-action="Delete" asp-route-id="@item.stud_id">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
