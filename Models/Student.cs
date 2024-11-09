@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PD_212_MVC_Classwork.Models
 {
@@ -24,8 +25,10 @@ namespace PD_212_MVC_Classwork.Models
         [DataType(DataType.Date)]
         public required DateTime birth_date { get; set; }
 
+        
         [DisplayName("Группа")]
         [Required]
+        //[ForeignKey]
         public required int group { get; set; }
 
     }
