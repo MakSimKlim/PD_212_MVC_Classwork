@@ -32,6 +32,7 @@
         <dd class = "col-sm-10">
             @* @Html.DisplayFor(model => model.Groups!.Select(global => global.Students.Count)) *@
             @Model.Groups!.Sum(g => g.Students!.Count)
+            @**@
         </dd>
     </dl>
 </div>
