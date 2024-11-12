@@ -28,8 +28,8 @@ namespace PD_212_MVC_Classwork.Models
         
         [DisplayName("Группа")]
         [Required]
-        //[ForeignKey]
+        [ForeignKey("Group")]
         public required int group { get; set; }
-
+        public required Group Group { get; set; }
     }
 }

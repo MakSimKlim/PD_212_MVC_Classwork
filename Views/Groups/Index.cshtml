@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.group_name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.direction)
+                @Html.DisplayNameFor(model => model.Direction)
             </th>
             <th></th>
         </tr>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.group_name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.direction)
+                @Html.DisplayFor(modelItem => item.Direction.direction_name)
             </td>
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.group_id">Edit</a>*@

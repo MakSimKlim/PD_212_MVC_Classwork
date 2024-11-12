@@ -52,8 +52,9 @@ namespace PD_212_MVC_Classwork.Views.Students
                 case "group_desk":      students = students.OrderByDescending(s => s.group); break;
 
             }
-
-            return View(await students.AsNoTracking().ToListAsync());
+            var academyContext = _context.Students.Include(g => g.Group);
+            return View(await academyContext.ToListAsync());
+            //return View(await students.AsNoTracking().ToListAsync());
             //return View(await _context.Students.ToListAsync());
         }
 

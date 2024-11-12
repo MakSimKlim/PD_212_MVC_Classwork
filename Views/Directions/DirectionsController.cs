@@ -8,88 +8,89 @@ using Microsoft.EntityFrameworkCore;
 using PD_212_MVC_Classwork.Models;
 using PD_212_MVC_Data;
 
-namespace PD_212_MVC_Classwork.Views.Groups
+namespace PD_212_MVC_Classwork.Views.Directions
 {
-    public class GroupsController : Controller
+    public class DirectionsController : Controller
     {
         private readonly AcademyContext _context;
 
-        public GroupsController(AcademyContext context)
+        public DirectionsController(AcademyContext context)
         {
             _context = context;
         }
 
-        // GET: Groups
+        // GET: Directions
         public async Task<IActionResult> Index()
         {
-            var academyContext = _context.Groups.Include(d => d.Direction);
-            return View(await academyContext.ToListAsync());
+            return View(await _context.Directions.ToListAsync());
         }
 
-        // GET: Groups/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Directions/Details/5
+        public async Task<IActionResult> Details(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var @group = await _context.Groups.Include(g => g.Direction)
-                .FirstOrDefaultAsync(m => m.group_id == id);
-            if (@group == null)
+            var direction = await _context.Directions
+                .Include(d => d.Groups)
+                .ThenInclude(g => g.Students)
+                .FirstOrDefaultAsync(m => m.direction_id == id);
+            if (direction == null)
             {
                 return NotFound();
             }
 
-            return View(@group);
+            return View(direction);
         }
 
-        // GET: Groups/Create
+        // GET: Directions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Groups/Create
+        // POST: Directions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("group_id,group_name,direction")] Group @group)
+        public async Task<IActionResult> Create([Bind("direction_id,direction_name")] Direction direction)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
+                _context.Add(direction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(direction);
         }
 
-        // GET: Groups/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Directions/Edit/5
+        public async Task<IActionResult> Edit(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var direction = await _context.Directions.FindAsync(id);
+            if (direction == null)
             {
                 return NotFound();
             }
-            return View(@group);
+            return View(direction);
         }
 
-        // POST: Groups/Edit/5
+        // POST: Directions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("group_id,group_name,direction")] Group @group)
+        public async Task<IActionResult> Edit(byte id, [Bind("direction_id,direction_name")] Direction direction)
         {
-            if (id != @group.group_id)
+            if (id != direction.direction_id)
             {
                 return NotFound();
             }
@@ -98,12 +99,12 @@ namespace PD_212_MVC_Classwork.Views.Groups
             {
                 try
                 {
-                    _context.Update(@group);
+                    _context.Update(direction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.group_id))
+                    if (!DirectionExists(direction.direction_id))
                     {
                         return NotFound();
                     }
@@ -114,45 +115,45 @@ namespace PD_212_MVC_Classwork.Views.Groups
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(direction);
         }
 
-        // GET: Groups/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Directions/Delete/5
+        public async Task<IActionResult> Delete(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var @group = await _context.Groups
-                .FirstOrDefaultAsync(m => m.group_id == id);
-            if (@group == null)
+            var direction = await _context.Directions
+                .FirstOrDefaultAsync(m => m.direction_id == id);
+            if (direction == null)
             {
                 return NotFound();
             }
 
-            return View(@group);
+            return View(direction);
         }
 
-        // POST: Groups/Delete/5
+        // POST: Directions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group != null)
+            var direction = await _context.Directions.FindAsync(id);
+            if (direction != null)
             {
-                _context.Groups.Remove(@group);
+                _context.Directions.Remove(direction);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupExists(int id)
+        private bool DirectionExists(byte id)
         {
-            return _context.Groups.Any(e => e.group_id == id);
+            return _context.Directions.Any(e => e.direction_id == id);
         }
     }
 }
