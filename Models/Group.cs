@@ -7,7 +7,7 @@ namespace PD_212_MVC_Classwork.Models
     public class Group
     {
         [Key]
-        public required int group_id { get; set; }
+        public int group_id { get; set; }
 
         [DisplayName("Название группы")]
         [Required]

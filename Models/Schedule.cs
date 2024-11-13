@@ -5,7 +5,7 @@ namespace PD_212_MVC_Classwork.Models
     public class Schedule
     {
         [Key]
-        public required long lesson_id { get; set; } // Первичный ключ
+        public long lesson_id { get; set; } // Первичный ключ
 
         [Required]
         public required short discipline { get; set; } // Дисциплина

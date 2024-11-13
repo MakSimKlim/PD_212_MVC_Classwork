@@ -7,7 +7,7 @@ namespace PD_212_MVC_Classwork.Models
     public class Discipline
     {
         [Key]
-        public required short discipline_id { get; set; }
+        public short discipline_id { get; set; }
 
         [DisplayName("Дисциплина")]
         [Required]
