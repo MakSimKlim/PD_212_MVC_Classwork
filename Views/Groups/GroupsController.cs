@@ -21,9 +21,12 @@ namespace PD_212_MVC_Classwork.Views.Groups
 
         // GET: Groups
         public async Task<IActionResult> Index()
+        
         {
             var academyContext = _context.Groups.Include(d => d.Direction);
             return View(await academyContext.ToListAsync());
+           
+
         }
 
         // GET: Groups/Details/5
@@ -34,7 +37,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
                 return NotFound();
             }
 
-            var @group = await _context.Groups.Include(g => g.Direction)
+            var @group = await _context.Groups.Include(d => d.Direction)
                 .FirstOrDefaultAsync(m => m.group_id == id);
             if (@group == null)
             {

@@ -22,11 +22,11 @@ namespace PD_212_MVC_Classwork.Views.Students
         // GET: Students
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["LastNameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "last_name_desk" : "";
-            ViewData["FirstNameSortParam"] = sortOrder == "FirstName" ? "first_name_desk" : "FirstName";
-            ViewData["MiddleNameSortParam"] = sortOrder == "MiddleName" ? "middle_name_desk" : "MiddleName";
-            ViewData["BirthDateSortParam"] = sortOrder == "BirthDate" ? "birth_date_desk" : "BirthDate";
-            ViewData["GroupParam"] = sortOrder == "Group" ? "group_desk" : "Group";
+            ViewData["LastNameSortParam"] =     String.IsNullOrEmpty(sortOrder) ? "last_name_desk" : "";
+            ViewData["FirstNameSortParam"] =    sortOrder == "FirstName" ? "first_name_desk" : "FirstName";
+            ViewData["MiddleNameSortParam"] =   sortOrder == "MiddleName" ? "middle_name_desk" : "MiddleName";
+            ViewData["BirthDateSortParam"] =    sortOrder == "BirthDate" ? "birth_date_desk" : "BirthDate";
+            ViewData["GroupParam"] =            sortOrder == "Group" ? "group_desk" : "Group";
             IQueryable<Student> students = from s in _context.Students select s;
 
             ViewData["CurrentFilter"] = searchString;
@@ -52,13 +52,15 @@ namespace PD_212_MVC_Classwork.Views.Students
                 case "group_desk":      students = students.OrderByDescending(s => s.group); break;
 
             }
-            var academyContext = _context.Students.Include(g => g.Group);
+            //var academyContext = _context.Students.Include(g => g.Group); // сортировка не работает
+            var academyContext = students.Include(g => g.Group); // сортировка работает
             return View(await academyContext.ToListAsync());
             //return View(await students.AsNoTracking().ToListAsync());
             //return View(await _context.Students.ToListAsync());
         }
 
         // GET: Students/Details/5
+      
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -67,6 +69,7 @@ namespace PD_212_MVC_Classwork.Views.Students
             }
 
             var student = await _context.Students
+                .Include(g => g.Group)
                 .FirstOrDefaultAsync(m => m.stud_id == id);
             if (student == null)
             {
@@ -75,7 +78,8 @@ namespace PD_212_MVC_Classwork.Views.Students
 
             return View(student);
         }
-
+        
+        
         // GET: Students/Create
         public IActionResult Create()
         {
@@ -106,7 +110,10 @@ namespace PD_212_MVC_Classwork.Views.Students
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
+            var student = await _context.Students
+                //.Include(g => g.Group)
+                .FindAsync(id);
+
             if (student == null)
             {
                 return NotFound();
