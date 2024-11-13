@@ -15,4 +15,16 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Disciplines\" />
+    <Folder Include="Views\DirectionsDisciplinesRelation\" />
+    <Folder Include="Views\CompleteDisciplines\" />
+    <Folder Include="Views\DemandDisciplines\" />
+    <Folder Include="Views\SpecialitiesTeachersRelation\" />
+    <Folder Include="Views\SpecialitiesDirectionsRelation\" />
+    <Folder Include="Views\SpecialitiesDisciplinesRelation\" />
+    <Folder Include="Views\TeachersDisciplinesRelation\" />
+    <Folder Include="Views\Schedules\" />
+  </ItemGroup>
+
 </Project>

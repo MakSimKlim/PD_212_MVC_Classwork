@@ -28,5 +28,12 @@ namespace PD_212_MVC_Classwork.Models
         [Required]
         [DataType(DataType.Date)]
         public required DateTime work_since { get; set; }
+
+        //Navigation properties
+        //public required Discipline Discipline { get; set; } // То что отображается в Teachers
+
+        public ICollection<TeacherDisciplineRelation>? TeachersDisciplinesRelation { get; set; }
+        public ICollection<SpecialityTeacherRelation>? SpecialitiesTeachersRelation { get; set; }
+        public ICollection<Schedule>? Schedules { get; set; }
     }
 }

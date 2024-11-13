@@ -30,6 +30,8 @@ namespace PD_212_MVC_Classwork.Models
         [Required]
         [ForeignKey("Group")]
         public required int group { get; set; }
+
+        //Navigation properties
         public required Group Group { get; set; }
     }
 }

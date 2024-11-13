@@ -10,6 +10,11 @@ namespace PD_212_MVC_Classwork.Models
         public required string direction_name { get; set; }
 
         //Navigation properties
-        public ICollection<Group>? Groups { get; set; }
+        public ICollection<Group>? Groups { get; set; } // То где отображается Direction
+
+        //public required Discipline Discipline { get; set; }//То что отображается в Direction
+
+        public ICollection<DirectionDisciplineRelation>? DirectionsDisciplinesRelation { get; set; }
+        public ICollection<SpecialityDirectionRelation>? SpecialitiesDirectionsRelation { get; set; }
     }
 }
