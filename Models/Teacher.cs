@@ -28,5 +28,8 @@ namespace PD_212_MVC_Classwork.Models
         [Required]
         [DataType(DataType.Date)]
         public required DateTime work_since { get; set; }
+
+        //Navigation Properties
+        public ICollection<TeachersDisciplinesRelation>? Disciplines { get; set; }
     }
 }

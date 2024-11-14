@@ -37,7 +37,8 @@ namespace PD_212_MVC_Classwork.Views.Groups
                 return NotFound();
             }
 
-            var @group = await _context.Groups.Include(d => d.Direction)
+            var @group = await _context.Groups
+                .Include(d => d.Direction)
                 .FirstOrDefaultAsync(m => m.group_id == id);
             if (@group == null)
             {

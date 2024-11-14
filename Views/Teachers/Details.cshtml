@@ -42,7 +42,36 @@
         </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.teacher_id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@if (Model.Disciplines != null)
+{
+    <div>
+        <h3>Преподаватель может вести следующие дисциплины (@Model.Disciplines.Count шт):</h3>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Дисциплина</th>
+                <th>Количество занятий</th>
+            </tr>
+
+                @foreach (TeachersDisciplinesRelation d in Model.Disciplines)
+                {
+                    <tr>
+                        <td>@d.Discipline.discipline_id</td>
+                        <td>@d.Discipline.discipline_name</td>
+                        <td>@d.Discipline.number_of_lessons</td>
+                    </tr>
+                
+                }            
+
+        </table>
+
+    </div>
+
+}
+
