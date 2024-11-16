@@ -11,5 +11,6 @@ namespace PD_212_MVC_Classwork.Models
 
         //Navigation properties
         public ICollection<Group>? Groups { get; set; }
+        public ICollection<DirectionsDisciplinesRelation>? Disciplines { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace PD_212_MVC_Classwork.Models
         [Required]
         public required string discipline_name { get; set; }
         [Required]
-        public byte number_of_lessons { get; set; }
+        public required byte number_of_lessons { get; set; }  // tinyint в базе ->  в c# это byte
 
         //Navigation properties
         

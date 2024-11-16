@@ -20,6 +20,7 @@ namespace PD_212_MVC_Data
         public DbSet<PD_212_MVC_Classwork.Models.Direction> Directions { get; set; } = default!;
         public DbSet<PD_212_MVC_Classwork.Models.Discipline> Disciplines { get; set; } = default!;
         public DbSet<PD_212_MVC_Classwork.Models.TeachersDisciplinesRelation> TeachersDisciplinesRelation { get; set; } = default!;
+        public DbSet<PD_212_MVC_Classwork.Models.DirectionsDisciplinesRelation> DirectionsDisciplinesRelation { get; set; } = default!;
 
 
     }

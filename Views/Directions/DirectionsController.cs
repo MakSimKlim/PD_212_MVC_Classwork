@@ -34,8 +34,10 @@ namespace PD_212_MVC_Classwork.Views.Directions
             }
 
             var direction = await _context.Directions
-                .Include(d => d.Groups)
+                .Include(d => d.Groups!)                
                 .ThenInclude(g => g.Students)
+                .Include(t => t.Disciplines!) // это добавленное поле для отображения дисциплин
+                .ThenInclude(d => d.Discipline) // это добавленное поле для отображения дисциплин
                 .FirstOrDefaultAsync(m => m.direction_id == id);
             if (direction == null)
             {
