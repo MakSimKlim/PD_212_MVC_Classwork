@@ -109,7 +109,13 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers.FindAsync(id);
+            //var teacher = await _context.Teachers.FindAsync(id);
+
+            var teacher = await _context.Teachers
+                .Include(t => t.Disciplines!)
+                .ThenInclude(d => d.Discipline)
+                .FirstOrDefaultAsync(m => m.teacher_id == id);
+
             if (teacher == null)
             {
                 return NotFound();
