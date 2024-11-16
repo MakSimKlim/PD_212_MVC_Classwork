@@ -87,5 +87,13 @@
 </div> *@
 
 <div class="form-group">
-    <input type="submit" value="Добавить" class="btn btn-primary" />
+    <label asp-for="teacher_id" class="control-label">Добавить дисциплину</label>
+    <div style="display:flex;justify-content:left">
+        <select asp-for="teacher_id" class="form-control" asp-items="ViewBag.Disciplines" style="width:90%"> </select>
+        <input type="submit" value="Добавить" class="btn btn-primary" style="width:10%"/>
+    </div>
 </div>
+
+@* <div class="form-group">
+    <input type="submit" value="Добавить" class="btn btn-primary" />
+</div> *@

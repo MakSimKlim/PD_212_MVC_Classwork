@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace PD_212_MVC_Classwork.Models
@@ -31,5 +32,9 @@ namespace PD_212_MVC_Classwork.Models
 
         //Navigation Properties
         public ICollection<TeachersDisciplinesRelation>? Disciplines { get; set; }
+        //public IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectList>? DisciplinesToEnum
+        //{
+        //    get => new SelectList(Microsoft.AspNetCore.Mvc.Rendering.SelectList(Disciplines));
+        //}
     }
 }

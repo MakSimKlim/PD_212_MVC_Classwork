@@ -19,6 +19,8 @@ namespace PD_212_MVC_Classwork.Views.Teachers
             _context = context;
         }
 
+        public Teacher Teacher { get; set; } = default!;
+
         // GET: Teachers
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
@@ -116,6 +118,9 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 .ThenInclude(d => d.Discipline)
                 .FirstOrDefaultAsync(m => m.teacher_id == id);
 
+            var disciplines = await _context.Disciplines.ToListAsync();
+            ViewData["Disciplines"] = new SelectList(disciplines, "discipline_id", "discipline_name");
+
             if (teacher == null)
             {
                 return NotFound();
@@ -140,6 +145,7 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 try
                 {
                     _context.Update(teacher);
+                    //_context.Update(teacher.Disciplines!);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -153,7 +159,7 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit));
             }
             return View(teacher);
         }
