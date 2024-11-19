@@ -183,6 +183,37 @@ namespace PD_212_MVC_Classwork.Views.Teachers
             return View(teacher);
         }
 
+
+        //=============== ВАРИАНТ МЕТОДА AddDiscipline ==================================
+        /*public async Task<IActionResult> AddDiscipline(int? teacher_id, short? discipline_id)
+        {
+            Teacher teacher = await _context.Teachers
+                .Include(t => t.Disciplines)
+                .ThenInclude(d => d.Discipline)
+                .FirstOrDefaultAsync(m => m.teacher_id == teacher_id);
+            //List<Discipline> disciplines = _context.Disciplines.ToList();
+            if (teacher == null)
+                return NotFound($"Teacher with ID {teacher_id} not found.");
+
+            Discipline discipline = await _context.Disciplines
+                .FirstOrDefaultAsync(d => d.discipline_id == discipline_id);
+            
+            teacher.Disciplines.Add(
+                new TeachersDisciplinesRelation
+                {
+                    teacher = teacher.teacher_id,
+                    discipline = (short)discipline_id,
+                    //Teacher = teacher,
+                    //Discipline = discipline
+                }
+                );
+
+           
+
+            return View(teacher);
+        }*/
+        //================================================================================
+
         // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -260,6 +291,7 @@ namespace PD_212_MVC_Classwork.Views.Teachers
 
         //=====================ТОТ ЖЕ КОД БЕЗ КОММЕНТАРИЕВ=======================================
         
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddDiscipline(int teacherId, short disciplineId)
@@ -272,10 +304,9 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 return NotFound($"Teacher with ID {teacherId} not found."); 
                    
             var discipline = await _context.Disciplines.FindAsync(disciplineId);
+
             if (discipline == null)
-            {
                 return NotFound($"Discipline with ID {disciplineId} not found.");
-            }
            
             if (teacher.Disciplines!.Any(td => td.discipline == disciplineId))
             {

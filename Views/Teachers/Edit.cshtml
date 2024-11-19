@@ -147,7 +147,7 @@
 @*============================== ТОТ ЖЕ КОД БЕЗ КОММЕНТАРИЕВ==============================*@
 
 <form asp-action="AddDiscipline" method="post">
-    <input type="hidden" name="teacherId" asp-for="teacher_id" />
+    <input type="hidden" name="teacherId" value="@Model.teacher_id" />
         <label class="control-label">Добавить дисциплину</label>
         <div style="display:flex;justify-content:left">
             <select name="disciplineId" class="form-control" style="width:90%">
