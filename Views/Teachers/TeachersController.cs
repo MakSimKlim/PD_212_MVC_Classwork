@@ -207,6 +207,7 @@ namespace PD_212_MVC_Classwork.Views.Teachers
         //Метод для добавления дисциплины преподавателю в лист дисциплин, которые он может вести
         //Принимает ID преподавателя и ID дисциплины.
 
+        /*
         [HttpPost]// Обязательный атрибут для данного метода,
                   // т.к он добавляет новую связь между преподавателем и дисциплиной в базу данных
         [ValidateAntiForgeryToken]// Проверяет наличие токена антифальсификации,
@@ -255,7 +256,50 @@ namespace PD_212_MVC_Classwork.Views.Teachers
             // Перенаправляем пользователя обратно на страницу редактирования преподавателя.
             return RedirectToAction(nameof(Edit), new { id = teacherId });
         }
+        */
 
+        //=====================ТОТ ЖЕ КОД БЕЗ КОММЕНТАРИЕВ=======================================
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddDiscipline(int teacherId, short disciplineId)
+        {           
+            var teacher = await _context.Teachers
+                .Include(t => t.Disciplines) 
+                .FirstOrDefaultAsync(t => t.teacher_id == teacherId);
+
+            if (teacher == null) 
+                return NotFound($"Teacher with ID {teacherId} not found."); 
+                   
+            var discipline = await _context.Disciplines.FindAsync(disciplineId);
+            if (discipline == null)
+            {
+                return NotFound($"Discipline with ID {disciplineId} not found.");
+            }
+           
+            if (teacher.Disciplines!.Any(td => td.discipline == disciplineId))
+            {
+                ModelState.AddModelError("", "This discipline is already assigned to the teacher.");
+                return RedirectToAction(nameof(Edit), new { id = teacherId });
+            }
+
+            var relation = new TeachersDisciplinesRelation
+            {
+                teacher = teacherId,
+                discipline = disciplineId,
+                Teacher = teacher,
+                Discipline = discipline
+            };
+
+            _context.Add(relation);
+
+            await _context.SaveChangesAsync();
+               
+            return RedirectToAction(nameof(Edit), new { id = teacherId });
+        }
+        
+
+        //=================================================================================================
 
 
     }
