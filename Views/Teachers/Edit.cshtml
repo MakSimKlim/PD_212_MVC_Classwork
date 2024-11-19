@@ -110,6 +110,10 @@
     который отображается в модели. 
 
     <label asp-for="teacher_id" class="control-label">Добавить дисциплину</label>
+    @* Тег `<label>` привязан к полю `teacher_id`, хотя оно здесь не используется напрямую в форме. 
+        Это скорее для семантики или возможных расширений.
+         Подпись "Добавить дисциплину" будет отображаться рядом с выпадающим списком дисциплин.
+
     <div style="display:flex;justify-content:left">
 
         <select name="disciplineId" class="form-control" style="width:90%">
@@ -140,21 +144,21 @@
 </form> 
 *@
 
-@*=============== ТОТ ЖЕ КОД БЕЗ КОММЕНТАРИЕВ===============*@
+@*============================== ТОТ ЖЕ КОД БЕЗ КОММЕНТАРИЕВ==============================*@
 
 <form asp-action="AddDiscipline" method="post">
-    <input type="hidden" name="teacherId" value="@Model.teacher_id" />
-    <label asp-for="teacher_id" class="control-label">Добавить дисциплину</label>
-    <div style="display:flex;justify-content:left">
-        <select name="disciplineId" class="form-control" style="width:90%">
-            <option value="">--Выберите дисциплину--</option>
-            @foreach (var discipline in ViewBag.Disciplines)
-            {
-                <option value="@discipline.Value">@discipline.Text</option>               
-            }
-        </select>
-        <button type="submit" class="btn btn-primary" style="width:10%">Добавить</button>
-    </div>
+    <input type="hidden" name="teacherId" asp-for="teacher_id" />
+        <label class="control-label">Добавить дисциплину</label>
+        <div style="display:flex;justify-content:left">
+            <select name="disciplineId" class="form-control" style="width:90%">
+                <option value="">--Выберите дисциплину--</option>
+                  @foreach (var discipline in ViewBag.Disciplines)
+                 {
+                    <option value="@discipline.Value">@discipline.Text</option>               
+                 }
+            </select>
+            <button type="submit" class="btn btn-primary" style="width:10%">Добавить</button>
+        </div>
 </form>
 
 @* ======================================================================================= *@
