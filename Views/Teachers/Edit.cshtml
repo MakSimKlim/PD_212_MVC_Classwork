@@ -86,13 +86,61 @@
     </select>
 </div> *@
 
-<div class="form-group">
+@* <div class="form-group">
     <label asp-for="teacher_id" class="control-label">Добавить дисциплину</label>
     <div style="display:flex;justify-content:left">
         <select asp-for="teacher_id" class="form-control" asp-items="ViewBag.Disciplines" style="width:90%"> </select>
         <input type="submit" value="Добавить" class="btn btn-primary" style="width:10%"/>
     </div>
-</div>
+</div> *@
+
+@* ===================Новая форма взамен предыдущей============================ *@
+@* для того чтобы работал метод добавления дисциплины преподавателю в лист дисциплин *@
+
+
+<form asp-action="AddDiscipline" method="post">
+    @* при отправке формы запрос будет отправлен к методу `AddDiscipline`
+    в контроллере TeacherControllers методом POST (это важно для изменения данных на сервере). *@
+    
+    <input type="hidden" name="teacherId" value="@Model.teacher_id" />
+   @* Это скрытое поле передает ID преподавателя (который мы получаем из модели `Teacher`), 
+    чтобы сервер знал, к какому преподавателю добавляется дисциплина.
+    Атрибут `name="teacherId"` будет использоваться для передачи значения на сервер, 
+    а атрибут `value="@Model.teacher_id"` устанавливает значение этого поля равным ID преподавателя, 
+    который отображается в модели. *@
+
+    <label asp-for="teacher_id" class="control-label">Добавить дисциплину</label>
+    <div style="display:flex;justify-content:left">
+
+        <select name="disciplineId" class="form-control" style="width:90%">
+        @*Элемент выпадающего списка (селект). `name="disciplineId"` — это имя поля, 
+            которое будет передано на сервер с выбранным значением.
+            Класс `form-control` делает селект стилизованным согласно стандартам Bootstrap, 
+            а `style="width:90%"` ограничивает его ширину до 90% контейнера. *@
+
+            <option value="">--Выберите дисциплину--</option>
+            @* Начальный элемент списка с пустым значением. 
+            Он используется как заголовок для выбора дисциплины. *@
+
+            @foreach (var discipline in ViewBag.Disciplines)
+            @* Цикл, который генерирует элементы `< option >` для каждой дисциплины, 
+               переданной в `ViewBag.Disciplines`.
+               `ViewBag.Disciplines` — это коллекция дисциплин, которые отображаются в выпадающем списке. *@
+            {
+                <option value="@discipline.Value">@discipline.Text</option>
+                @* Для каждой дисциплины создается элемент `< option >`, где:
+                - `value = "@discipline.Value"` устанавливает значение опции(ID дисциплины), 
+                   которое будет передано на сервер.
+                - `@discipline.Text` устанавливает текст, 
+                   который будет отображаться в выпадающем списке(например, название дисциплины).*@
+            }
+        </select>
+        <button type="submit" class="btn btn-primary" style="width:10%">Добавить</button>
+    </div>
+</form>
+
+@* ======================================================================================= *@
+
 
 @* <div class="form-group">
     <input type="submit" value="Добавить" class="btn btn-primary" />

@@ -118,6 +118,7 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 .ThenInclude(d => d.Discipline)
                 .FirstOrDefaultAsync(m => m.teacher_id == id);
 
+            //чтобы отобразить список всех дисциплин
             var disciplines = await _context.Disciplines.ToListAsync();
             ViewData["Disciplines"] = new SelectList(disciplines, "discipline_id", "discipline_name");
 
@@ -201,5 +202,61 @@ namespace PD_212_MVC_Classwork.Views.Teachers
         {
             return _context.Teachers.Any(e => e.teacher_id == id);
         }
+
+        //==============================================================================================
+        //Метод для добавления дисциплины преподавателю в лист дисциплин, которые он может вести
+        //Принимает ID преподавателя и ID дисциплины.
+
+        [HttpPost]// Обязательный атрибут для данного метода,
+                  // т.к он добавляет новую связь между преподавателем и дисциплиной в базу данных
+        [ValidateAntiForgeryToken]// Проверяет наличие токена антифальсификации,
+                                  // чтобы защититься от CSRF-атак.
+        public async Task<IActionResult> AddDiscipline(int teacherId, short disciplineId) 
+        {
+            // Загружаем преподавателя вместе с его дисциплинами из базы данных.
+            var teacher = await _context.Teachers
+                .Include(t => t.Disciplines) // Загружаем связанные дисциплины преподавателя через связь "многие-ко-многим".
+                .FirstOrDefaultAsync(t => t.teacher_id == teacherId); // Ищем преподавателя с указанным ID.
+
+            if (teacher == null) // Проверяем, найден ли преподаватель.
+                return NotFound($"Teacher with ID {teacherId} not found."); // Если преподаватель не найден, возвращаем ошибку 404.
+
+            // Загружаем дисциплину по ее ID из базы данных.
+            var discipline = await _context.Disciplines.FindAsync(disciplineId);
+            if (discipline == null) // Проверяем, найдена ли дисциплина.
+            {
+                return NotFound($"Discipline with ID {disciplineId} not found."); // Если дисциплина не найдена, возвращаем ошибку 404.
+            }
+
+            // Проверяем, не была ли дисциплина уже добавлена этому преподавателю.
+            if (teacher.Disciplines!.Any(td => td.discipline == disciplineId))
+            {
+                // Если связь уже существует, добавляем ошибку в состояние модели.
+                ModelState.AddModelError("", "This discipline is already assigned to the teacher.");
+                // Возвращаем пользователя обратно на страницу редактирования.
+                return RedirectToAction(nameof(Edit), new { id = teacherId });
+            }
+
+            // Создаем новую связь между преподавателем и дисциплиной.
+            var relation = new TeachersDisciplinesRelation
+            {
+                teacher = teacherId, // Указываем ID преподавателя.
+                discipline = disciplineId, // Указываем ID дисциплины.
+                Teacher = teacher, // Присваиваем объект преподавателя для навигационного свойства.
+                Discipline = discipline // Присваиваем объект дисциплины для навигационного свойства.
+            };
+
+            // Добавляем новую связь в контекст базы данных.
+            _context.Add(relation);
+
+            // Сохраняем изменения в базе данных.
+            await _context.SaveChangesAsync();
+
+            // Перенаправляем пользователя обратно на страницу редактирования преподавателя.
+            return RedirectToAction(nameof(Edit), new { id = teacherId });
+        }
+
+
+
     }
 }
