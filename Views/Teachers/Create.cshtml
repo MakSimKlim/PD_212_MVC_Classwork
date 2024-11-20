@@ -10,8 +10,30 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        @* <form asp-action="Create">*@
+        <form asp-action="Create" method="post" enctype="multipart/form-data">@*method="post" enctype="multipart/form-data" - для добавления картинки в базу*@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            @*добавляем поле для картинки*@
+            <div class="form-group">
+                <label asp-for="Image" class="control-label" style="display: none"></label>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Выбрать фото</button>
+                <input type="file" id="fileInput" asp-for="Image" accept=".jpg, .jpeg, .bmp, .png" style="display: none;" onchange="updateFileName(this)" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+                <div id="fileName" style="margin-top: 10px;"></div>
+            </div>
+
+            <script>
+                function updateFileName(input) {
+                    var fileName = input.files[0].name;
+                    document.getElementById('fileName').innerText = "Выбранный файл: " + fileName;
+                }
+            </script>
+
+
+            @*===========================*@
+
             <div class="form-group">
                 <label asp-for="last_name" class="control-label"></label>
                 <input asp-for="last_name" class="form-control" />

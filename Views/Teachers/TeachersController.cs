@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using PD_212_MVC_Classwork.Models;
 using PD_212_MVC_Data;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PD_212_MVC_Classwork.Views.Teachers
 {
@@ -92,8 +95,24 @@ namespace PD_212_MVC_Classwork.Views.Teachers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("teacher_id,last_name,first_name,middle_name,birth_date,work_since")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("teacher_id,last_name,first_name,middle_name,birth_date,work_since")] Teacher teacher, List<IFormFile> Image)// добавили List<IFormFile> Image для добавления фото в БД
         {
+            //==== код для добавления фото в базу данных ===========
+
+            foreach (var item in Image)
+            {
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        teacher.Image = stream.ToArray();
+                    }
+                }
+            }
+
+            //======================================================
+
             if (ModelState.IsValid)
             {
                 _context.Add(teacher);
@@ -134,12 +153,30 @@ namespace PD_212_MVC_Classwork.Views.Teachers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("teacher_id,last_name,first_name,middle_name,birth_date,work_since")] Teacher teacher)
+        //public async Task<IActionResult> Edit(int id, [Bind("teacher_id,last_name,first_name,middle_name,birth_date,work_since")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("teacher_id,last_name,first_name,middle_name,birth_date,work_since")] Teacher teacher, List<IFormFile> Image)// добавили List<IFormFile> Image для добавления фото в БД
         {
             if (id != teacher.teacher_id)
             {
                 return NotFound();
             }
+
+            //==== код для добавления фото в базу данных ===========
+            
+            foreach (var item in Image)
+            {
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        teacher.Image = stream.ToArray();
+                    }
+                }
+            }
+
+            //======================================================
+
 
             if (ModelState.IsValid)
             {
@@ -162,6 +199,9 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 }
                 return RedirectToAction(nameof(Edit));
             }
+
+           
+
             return View(teacher);
         }
 

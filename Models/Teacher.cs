@@ -30,6 +30,9 @@ namespace PD_212_MVC_Classwork.Models
         [DataType(DataType.Date)]
         public required DateTime work_since { get; set; }
 
+        [DisplayName("Фото преподавателя")]
+        public byte[]? Image { get; set; }
+
         //Navigation Properties
         public ICollection<TeachersDisciplinesRelation>? Disciplines { get; set; }
         //public IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectList>? DisciplinesToEnum
