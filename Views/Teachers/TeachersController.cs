@@ -161,21 +161,40 @@ namespace PD_212_MVC_Classwork.Views.Teachers
                 return NotFound();
             }
 
-            //==== код для добавления фото в базу данных ===========
-            
-            foreach (var item in Image)
+            //************ код для добавления фото в базу данных *************
+
+            // Получаем текущего преподавателя из базы, чтобы сохранить старое изображение если оно уже хранится в базе
+            var existingTeacher = await _context.Teachers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.teacher_id == id);
+
+            if (existingTeacher == null)
             {
-                if (item.Length > 0)
+                return NotFound();
+            }
+
+            // Если новое изображение не выбрано, оставляем старое
+            if (Image == null || !Image.Any())
+            {
+                teacher.Image = existingTeacher.Image;
+            }
+            else
+            {
+                // Обновляем изображение, если было передано
+                foreach (var item in Image)
                 {
-                    using (var stream = new MemoryStream())
+                    if (item.Length > 0)
                     {
-                        await item.CopyToAsync(stream);
-                        teacher.Image = stream.ToArray();
+                        using (var stream = new MemoryStream())
+                        {
+                            await item.CopyToAsync(stream);
+                            teacher.Image = stream.ToArray();
+                        }
                     }
                 }
             }
 
-            //======================================================
+            //******************************************************************
 
 
             if (ModelState.IsValid)

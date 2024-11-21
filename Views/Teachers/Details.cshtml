@@ -9,7 +9,7 @@
 
 <h4>Teacher</h4>
 <hr />
-<div class="row">
+<div class="row">@*делим форму на столбцы*@
     <div class="col-sm-8">
         <dl class="row">
             <dt class = "col-sm-2">
@@ -45,7 +45,11 @@
 
         </dl>
     </div>
+
+    @*вставляем картинку *@
+
     <div class="col-sm-4"> 
+        <dl class="row">
         <dt class="col-sm-8"> Фото </dt> 
         <dd class="col-sm-8"> 
             @if (Model.Image != null && Model.Image.Length > 0)
@@ -57,7 +61,11 @@
                 <span>Изображение отсутствует</span>
             } 
         </dd> 
+        </dl>
     </div>
+
+    @**********************@
+
 </div>
 
 <div>
