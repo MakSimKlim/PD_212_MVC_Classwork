@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         @*<form asp-action="Edit">*@
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">@*method="post" enctype="multipart/form-data" - для добавления картинки в базу*@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="teacher_id" />
 
@@ -30,8 +30,6 @@
                     document.getElementById('fileName').innerText = "Выбранный файл: " + fileName;
                 }
             </script>
-
-
             @*===========================*@
 
             <div class="form-group">
