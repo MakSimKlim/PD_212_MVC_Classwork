@@ -18,7 +18,7 @@
             @*добавляем поле для картинки*@
             <div class="form-group">
                 <label asp-for="Image" class="control-label" style="display: none"></label>
-                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Выбрать фото</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Изменить фото</button>
                 <input type="file" id="fileInput" asp-for="Image" accept=".jpg, .jpeg, .bmp, .png" style="display: none;" onchange="updateFileName(this)" />
                 <span asp-validation-for="Image" class="text-danger"></span>
                 <div id="fileName" style="margin-top: 10px;"></div>
