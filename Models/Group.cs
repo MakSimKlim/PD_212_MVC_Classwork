@@ -7,6 +7,7 @@ namespace PD_212_MVC_Classwork.Models
     public class Group
     {
         [Key]
+        
         public required int group_id { get; set; }
 
         [DisplayName("Название группы")]
@@ -16,6 +17,7 @@ namespace PD_212_MVC_Classwork.Models
         [DisplayName("Направление")]
         [Required]
         [ForeignKey("Direction")]
+        
         public required byte direction { get; set; } // Поле типа tinyint в базе данных
 
         //Navigation property

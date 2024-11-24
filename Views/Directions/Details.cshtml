@@ -16,54 +16,9 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.direction_name)
         </dd>
-        
-        <dt class = "col-sm-2">
-            Количество групп:
-            @* @Html.Display("Количество групп:") *@
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Groups!.Count)
-        </dd>
-
-        <dt class = "col-sm-2">
-            Количество студентов:
-            @* @Html.Display("Количество групп:") *@
-        </dt>
-        <dd class = "col-sm-10">
-            @* @Html.DisplayFor(model => model.Groups!.Select(global => global.Students.Count)) *@
-            @Model.Groups!.Sum(g => g.Students!.Count)
-            @**@
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.direction_id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.direction_id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-
-@if (Model.Disciplines != null)
-{
-    <div>
-        <h3>На этом направлении преподаются следующие дисциплины (@Model.Disciplines.Count шт):</h3>
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th>Дисциплина</th>
-                <th>Количество занятий</th>
-            </tr>
-
-            @foreach (DirectionsDisciplinesRelation d in Model.Disciplines)
-            {
-                <tr>
-                    <td>@d.Discipline.discipline_id</td>
-                    <td>@d.Discipline.discipline_name</td>
-                    <td>@d.Discipline.number_of_lessons</td>
-                </tr>
-
-            }
-
-        </table>
-
-    </div>
-
-}

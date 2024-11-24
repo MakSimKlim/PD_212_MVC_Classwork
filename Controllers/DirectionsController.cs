@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PD_212_MVC_Classwork.Models;
 using PD_212_MVC_Data;
 
-namespace PD_212_MVC_Classwork.Views.Directions
+namespace PD_212_MVC_Classwork.Controllers
 {
     public class DirectionsController : Controller
     {
@@ -34,10 +34,6 @@ namespace PD_212_MVC_Classwork.Views.Directions
             }
 
             var direction = await _context.Directions
-                .Include(d => d.Groups!)                
-                .ThenInclude(g => g.Students)
-                .Include(t => t.Disciplines!) // это добавленное поле для отображения дисциплин
-                .ThenInclude(d => d.Discipline) // это добавленное поле для отображения дисциплин
                 .FirstOrDefaultAsync(m => m.direction_id == id);
             if (direction == null)
             {

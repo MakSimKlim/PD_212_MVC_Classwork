@@ -7,6 +7,7 @@ namespace PD_212_MVC_Classwork.Models
     public class Student
     {
         [Key]
+        
         public int stud_id { get; set; }
 
         [DisplayName("Фамилия")]
