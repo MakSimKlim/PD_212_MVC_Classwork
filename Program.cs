@@ -30,3 +30,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+
+
+// Статья  Как сделать авторизацию и аутентификацию ASP.Net Core MVC
+// https://codewithmukesh.com/blog/user-management-in-aspnet-core-mvc/
