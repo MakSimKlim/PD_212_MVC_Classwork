@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PD_212_MVC_Classwork.Models;
 using PD_212_MVC_Data;
 
-namespace PD_212_MVC_Classwork.Views.Groups
+namespace PD_212_MVC_Classwork.Controllers
 {
     public class GroupsController : Controller
     {
@@ -21,12 +21,9 @@ namespace PD_212_MVC_Classwork.Views.Groups
 
         // GET: Groups
         public async Task<IActionResult> Index()
-        
         {
-            var academyContext = _context.Groups.Include(d => d.Direction);
+            var academyContext = _context.Groups.Include(g => g.Direction);
             return View(await academyContext.ToListAsync());
-           
-
         }
 
         // GET: Groups/Details/5
@@ -38,7 +35,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
             }
 
             var @group = await _context.Groups
-                .Include(d => d.Direction)
+                .Include(g => g.Direction)
                 .FirstOrDefaultAsync(m => m.group_id == id);
             if (@group == null)
             {
@@ -51,6 +48,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
         // GET: Groups/Create
         public IActionResult Create()
         {
+            ViewData["direction"] = new SelectList(_context.Directions, "direction_id", "direction_name");
             return View();
         }
 
@@ -59,15 +57,16 @@ namespace PD_212_MVC_Classwork.Views.Groups
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("group_id,group_name,direction")] Group @group)
+        public async Task<IActionResult> Create([Bind("group_id,group_name,direction")] Group group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
+                _context.Add(group);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            ViewData["direction"] = new SelectList(_context.Directions, "direction_id", "direction_name", group.direction);
+            return View(group);
         }
 
         // GET: Groups/Edit/5
@@ -83,6 +82,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
             {
                 return NotFound();
             }
+            ViewData["direction"] = new SelectList(_context.Directions, "direction_id", "direction_name", @group.direction);
             return View(@group);
         }
 
@@ -118,6 +118,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["direction"] = new SelectList(_context.Directions, "direction_id", "direction_name", @group.direction);
             return View(@group);
         }
 
@@ -130,6 +131,7 @@ namespace PD_212_MVC_Classwork.Views.Groups
             }
 
             var @group = await _context.Groups
+                .Include(g => g.Direction)
                 .FirstOrDefaultAsync(m => m.group_id == id);
             if (@group == null)
             {

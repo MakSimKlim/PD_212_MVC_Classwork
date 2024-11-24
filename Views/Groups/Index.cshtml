@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PD_212_MVC_Classwork.Models.Group>
 
 @{
-    ViewData["Title"] = "Groups";
+    ViewData["Title"] = "Index";
 }
 
 <h1>Groups</h1>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.Direction.direction_name)
             </td>
             <td>
-                @*<a asp-action="Edit" asp-route-id="@item.group_id">Edit</a>*@
-                <a asp-action="Details" asp-route-id="@item.group_id">Details</a>
-                @*<a asp-action="Delete" asp-route-id="@item.group_id">Delete</a>*@
+                <a asp-action="Edit" asp-route-id="@item.group_id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.group_id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.group_id">Delete</a>
             </td>
         </tr>
 }
